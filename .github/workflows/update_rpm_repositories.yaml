@@ -1,0 +1,41 @@
+---
+name: RPM repositories
+
+on:
+  workflow_dispatch:
+  # TODO: also do it on a schedule.
+
+permissions:
+  contents: read
+
+jobs:
+  Sync:
+    name: Update
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update
+        run: ./hack/update-known-rpm-repositories.sh
+
+      - name: Pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          add-paths: |
+            data/known_rpm_repositories.yml
+          branch: ci/update-rpm-repositories
+          commit-message: Update list of known RPM repositories
+          reviewers: |
+            lcarva
+          sign-commits: true
+          signoff: true
+          title: Update list of known RPM repositories
+          # token: TODO
+
+# TODO: Test this baby on a fork
+# TODO: Enable create pull requests permission on the repo, see https://github.com/peter-evans/create-pull-request?tab=readme-ov-file#workflow-permissions
+# TODO: Can't use GITHUB_TOKEN... https://github.com/peter-evans/create-pull-request?tab=readme-ov-file#token
