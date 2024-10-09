@@ -133,6 +133,10 @@ rule_data:
     format: semverv
     # https://github.com/hashicorp/vault/blob/8a46bee76887523a006410d1e865f5365e709851/LICENSE#L7
     min: v1.15.0
+    exceptions:
+      # The api submodule has Mozilla Public License
+      # https://github.com/hashicorp/vault/blob/v1.15.0/api/LICENSE
+      - subpath: api
   - purl: pkg:golang/github.com/hashicorp/vagrant
     format: semverv
     # https://github.com/hashicorp/vagrant/blob/ac6374cd11a51b6992a5dc981bf617db74b4ca7d/LICENSE#L7
